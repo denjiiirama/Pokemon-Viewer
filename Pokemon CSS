@@ -1,0 +1,128 @@
+/* Reset default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f8ff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #ffcb05;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    color: #3b4cca;
+}
+
+/* Main Section */
+main {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Search Section */
+.search-section {
+    display: flex;
+    justify-content: center;
+}
+
+#pokemonForm input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 200px;
+}
+
+#pokemonForm button {
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    background-color: #3b4cca;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#pokemonForm button:hover {
+    background-color: #2a3690;
+}
+
+/* Pokémon Display */
+.pokemon-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.pokemon-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 1rem;
+    width: 200px;
+    text-align: center;
+}
+
+.pokemon-card img {
+    width: 120px;
+    height: 120px;
+}
+
+.pokemon-card button {
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.add-fav {
+    background-color: #ff4c4c;
+    color: #fff;
+}
+
+.remove-fav {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+/* Favorites Section */
+.favorites-section {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.favorites-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#favoritesList {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+#favoritesList li {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+}
