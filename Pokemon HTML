@@ -7,37 +7,58 @@
     <link rel="stylesheet" href="pokemonstyle.css">
 </head>
 <body>
-    <header>
-        <h1>Pokémon Viewer</h1>
-    </header>
 
-    <main>
-        <!-- Search Form -->
-        <section class="search-section">
-            <form id="pokemonForm">
-                <input type="text" id="pokemonInput" placeholder="Enter Pokémon name..." required>
-                <button type="submit">Search</button>
-            </form>
-        </section>
+<header>
+    <h1>Pokémon Viewer 🐱‍👤</h1>
+</header>
 
-        <!-- Pokémon Display -->
-        <section id="pokemonDisplay" class="pokemon-display">
-            <!-- Pokémon info will be dynamically added here -->
-        </section>
+<main>
 
-        <!-- Favorites Section -->
-        <section class="favorites-section">
-            <h2>Favorites ❤️</h2>
-            <ul id="favoritesList">
-                <!-- Favorite Pokémon will be listed here -->
-            </ul>
-        </section>
-    </main>
+    <!-- SEARCH -->
+    <section class="search-section">
+        <form id="pokemonForm">
+            <input type="text" id="pokemonInput" placeholder="Search Pokémon..." required>
+            <button type="submit">Search</button>
+        </form>
 
-    <footer>
-        <p>Data fetched from <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></p>
-    </footer>
+        <!-- Autocomplete -->
+        <div id="suggestions" class="suggestions-box"></div>
+    </section>
 
-    <script src="pokemonscript.js"></script>
+    <!-- FILTERS -->
+    <section class="filter-section">
+        <select id="typeFilter">
+            <option value="">All Types</option>
+            <option value="fire">Fire</option>
+            <option value="water">Water</option>
+            <option value="grass">Grass</option>
+            <option value="electric">Electric</option>
+            <option value="psychic">Psychic</option>
+            <option value="ice">Ice</option>
+            <option value="dragon">Dragon</option>
+        </select>
+
+        <input type="number" id="minHP" placeholder="Min HP">
+        <input type="number" id="minAttack" placeholder="Min Attack">
+
+        <button id="randomBtn">🎲 Random</button>
+    </section>
+
+    <!-- DISPLAY -->
+    <section id="pokemonDisplay" class="pokemon-display"></section>
+
+    <!-- FAVORITES -->
+    <section class="favorites-section">
+        <h2>Favorites ❤️</h2>
+        <ul id="favoritesList"></ul>
+    </section>
+
+</main>
+
+<footer>
+    <p>Data from <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></p>
+</footer>
+
+<script src="pokemonscript.js"></script>
 </body>
 </html>
