@@ -7,7 +7,6 @@ const suggestionsBox = document.getElementById('suggestions');
 const typeFilter = document.getElementById('typeFilter');
 const minHP = document.getElementById('minHP');
 const minAttack = document.getElementById('minAttack');
-const randomBtn = document.getElementById('randomBtn');
 
 let favorites = [];
 let allPokemon = [];
@@ -43,22 +42,24 @@ input.addEventListener('input', () => {
     });
 });
 
-// FETCH
-async function fetchPokemon(name) {
+// FETCH POKEMON DATA
+async function fetchPokemon(identifier) {
     try {
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${identifier}`);
         if (!res.ok) throw new Error("Not found");
         const data = await res.json();
         showPokemon(data);
     } catch {
-        alert("Pokémon not found");
+        const msg = document.createElement('p');
+        msg.textContent = "Pokémon not found";
+        display.appendChild(msg);
     }
 }
 
-// DISPLAY
+// DISPLAY POKEMON CARD
 function showPokemon(pokemon) {
-    const hp = pokemon.stats[0].base_stat;
-    const attack = pokemon.stats[1].base_stat;
+    const hp = pokemon.stats.find(stat => stat.stat.name === "hp").base_stat;
+    const attack = pokemon.stats.find(stat => stat.stat.name === "attack").base_stat;
 
     // FILTERS
     if (
@@ -66,37 +67,57 @@ function showPokemon(pokemon) {
         (minHP.value && hp < minHP.value) ||
         (minAttack.value && attack < minAttack.value)
     ) {
-        display.innerHTML = "<p>No match</p>";
+        const msg = document.createElement('p');
+        msg.textContent = "No match";
+        display.appendChild(msg);
         return;
     }
 
     const isFav = favorites.includes(pokemon.name);
 
-    display.innerHTML = `
-        <div class="pokemon-card">
-            <h3>${pokemon.name.toUpperCase()}</h3>
-            <img src="${pokemon.sprites.front_default}">
-            <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>
-            <p>HP: ${hp}</p>
-            <p>Attack: ${attack}</p>
-            <button class="${isFav ? 'remove-fav' : 'add-fav'}" id="favBtn">
+    // Create card element
+    const card = document.createElement('div');
+    card.className = "pokemon-card";
+    card.innerHTML = `
+        <h3>${pokemon.name.toUpperCase()}</h3>
+        <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+        <p>Type: ${pokemon.types.map(t => t.type.name).join(', ')}</p>
+        <p>HP: ${hp}</p>
+        <p>Attack: ${attack}</p>
+        <div class="card-buttons">
+            <button class="${isFav ? 'remove-fav' : 'add-fav'}">
                 ${isFav ? 'Remove 💚' : 'Add ❤️'}
             </button>
+            <button class="remove-card">Remove ❌</button>
         </div>
     `;
 
-    document.getElementById('favBtn').onclick = () => {
+    // Favorite button logic
+    const favBtn = card.querySelector('.add-fav, .remove-fav');
+    favBtn.onclick = () => {
         if (isFav) {
             favorites = favorites.filter(f => f !== pokemon.name);
         } else {
             favorites.push(pokemon.name);
         }
         updateFavorites();
+        // Re-render this card to update button state
+        card.remove();
         showPokemon(pokemon);
     };
+
+    // Remove card button logic
+    const removeBtn = card.querySelector('.remove-card');
+    removeBtn.onclick = () => {
+        card.remove();
+    };
+
+    // Append card instead of replacing
+    display.appendChild(card);
 }
 
-// FAVORITES
+
+// FAVORITES LIST
 function updateFavorites() {
     favoritesList.innerHTML = '';
 
@@ -108,13 +129,7 @@ function updateFavorites() {
     });
 }
 
-// RANDOM
-randomBtn.onclick = () => {
-    const id = Math.floor(Math.random() * 1000) + 1;
-    fetchPokemon(id);
-};
-
-// FORM
+// FORM SUBMIT
 form.addEventListener('submit', e => {
     e.preventDefault();
     fetchPokemon(input.value.toLowerCase());
